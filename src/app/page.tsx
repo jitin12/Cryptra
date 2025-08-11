@@ -73,7 +73,7 @@ const [selectedCrypto, setSelectedCrypto] = useState<Crypto | null>(null);
 
   useEffect(() => {
 
-    const ws = new WebSocket("ws://localhost:8080");
+    const ws = new WebSocket("wss://cryptra.onrender.com");
     ws.onopen = () => console.log("Connected");
     ws.onmessage = (event) => {
   try {
