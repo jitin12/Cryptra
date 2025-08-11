@@ -1,5 +1,5 @@
 'use client'
-
+import axios from 'axios'; 
 import { Brain, Shield, Lightbulb, Users, ArrowRight, Star, CheckCircle, ArrowUpRight, MailPlus,TrendingUp,Bell,X,ArrowUp, ArrowDown} from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -12,11 +12,13 @@ export default function Home() {
   const [isClient, setIsClient] = useState(false);
    const [showModal, setShowModal] = useState(false);
   const [selectedCrypto, setSelectedCrypto] = useState<any>(null);
+    const [showSuccess, setShowSuccess] = useState(false);
+
   const [formData, setFormData] = useState({
     email: '',
     symbol: '',
     targetPrice: '',
-    direction: 'above' // 'above' or 'below'
+    direction: 'above' 
   });
 
  const openModal = (crypto: any) => {
@@ -28,6 +30,7 @@ export default function Home() {
       direction: 'above'
     });
     setShowModal(true);
+
   };
 
   const closeModal = () => {
@@ -35,11 +38,21 @@ export default function Home() {
     setSelectedCrypto(null);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const res = await axios.post('/api/alerts', {
+    email: formData.email,
+    symbol: formData.symbol,
+    targetPrice: formData.targetPrice,
+    direction: formData.direction
+  });
     // Handle form submission here
     console.log('Alert created:', formData);
     closeModal();
+    
+    setShowSuccess(true);
+        // Hide modal after 1 second
+        setTimeout(() => setShowSuccess(false), 1000);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,6 +77,7 @@ export default function Home() {
   const router = useRouter();
 
   return (
+    
     <div className=" inset-0 -z-10 h-full w-full items-center [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]">
       <nav className="z-10 p-4  bg-dark w-full rounded-full">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
@@ -193,7 +207,13 @@ export default function Home() {
   </div>
 </section>
 
-      
+      {showSuccess && (
+         <div className="fixed inset-0 flex items-center justify-center z-50">
+      <div className="bg-black-500 text-white px-6 py-3 rounded-lg shadow-lg text-lg">
+        ✅ Alert Created Successfully!
+      </div>
+    </div>
+      )}
 
       <section className="relative z-10 px-6 pb-20">
         <div className="max-w-6xl mx-auto">
