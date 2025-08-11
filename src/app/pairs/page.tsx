@@ -1,7 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 
-import { Brain, Shield, Lightbulb, Users, ArrowRight, Star, CheckCircle } from 'lucide-react';
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 export default function Page() {
 
