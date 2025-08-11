@@ -5,13 +5,19 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 
+type Crypto = {
+  symbol: string;
+  price: number;
+  percentChange: number;
+};
+
 
 export default function Home() {
 
-  const [response, setresponse] = useState<any[]>([]);
-  const [isClient, setIsClient] = useState(false);
+  const [response, setresponse] = useState<Crypto[]>([]);
+
    const [showModal, setShowModal] = useState(false);
-  const [selectedCrypto, setSelectedCrypto] = useState<any>(null);
+const [selectedCrypto, setSelectedCrypto] = useState<Crypto | null>(null);
     const [showSuccess, setShowSuccess] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -21,7 +27,7 @@ export default function Home() {
     direction: 'above' 
   });
 
- const openModal = (crypto: any) => {
+ const openModal = (crypto: Crypto) => {
     setSelectedCrypto(crypto);
     setFormData({
       email: '',
@@ -64,14 +70,19 @@ export default function Home() {
 
 
   useEffect(() => {
-    setIsClient(true);
 
     const ws = new WebSocket("ws://localhost:8080");
     ws.onopen = () => console.log("Connected");
     ws.onmessage = (event) => {
-      const parsed = JSON.parse(event.data.toString()); // ✅
-      setresponse(parsed);
-    };
+  try {
+    const parsed = JSON.parse(event.data.toString());
+    if (Array.isArray(parsed)) {
+      setresponse(parsed as Crypto[]);
+    }
+  } catch (e) {
+    console.error("Failed to parse WS message", e);
+  }
+};
   }, []);
 
   const router = useRouter();
