@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 'use client'
 import axios from 'axios'; 
 import {Shield,  ArrowRight, ArrowUpRight,TrendingUp,Bell,X,ArrowUp, ArrowDown} from 'lucide-react';

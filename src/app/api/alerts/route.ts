@@ -1,8 +1,10 @@
+
+import { NextRequest } from 'next/server';
 import connectDB from '../../../../backend/connectdb';
 import Alert from '../../../../backend/models/schema';
 import { NextResponse } from 'next/server';
 
-export async function POST(req : any) {
+export async function POST(req : NextRequest) {
   await connectDB();
   const { email, symbol, targetPrice, direction } = await req.json();
 
