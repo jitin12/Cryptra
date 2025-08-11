@@ -1,9 +1,9 @@
 'use client'
 import axios from 'axios'; 
-import { Brain, Shield, Lightbulb, Users, ArrowRight, Star, CheckCircle, ArrowUpRight, MailPlus,TrendingUp,Bell,X,ArrowUp, ArrowDown} from 'lucide-react';
+import {Shield,  ArrowRight, ArrowUpRight,TrendingUp,Bell,X,ArrowUp, ArrowDown} from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+
 
 
 export default function Home() {
