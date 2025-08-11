@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "npx tsx backend/server.ts",         
+    "bgjob": "npx tsx backend/bgjob.ts",
     "lint": "next lint"
   },
   "dependencies": {
