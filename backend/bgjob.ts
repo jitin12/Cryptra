@@ -1,7 +1,5 @@
 import 'dotenv/config';
-
 import cron from "node-cron";
-import mongoose from "mongoose";
 import Alert from "./models/schema";
 import connectDB from "./connectdb";
 import { Resend } from "resend";
@@ -21,11 +19,9 @@ async function bgjob() {
             console.log(`${alert.symbol} Price: $${currprice}`);
 
             const shouldTrigger =
-                (alert.direction === "below" && currprice < alert.targetPrice
-                ) ||
-                (alert.direction === "above" && currprice > alert.targetPrice
-                );
-            console.log(shouldTrigger);
+                (alert.direction === "below" && currprice < alert.targetPrice) ||
+                (alert.direction === "above" && currprice > alert.targetPrice);
+
             if (shouldTrigger) {
                 await resend.emails.send({
                     from: "onboarding@resend.dev",
@@ -45,18 +41,12 @@ async function bgjob() {
     }
 }
 
-(async () => {
-    try {
-        await connectDB();
-        console.log('✅ MongoDB connected');
+export async function startBackgroundJobs() {
+    await connectDB();
+    console.log("✅ MongoDB connected for bgjob");
 
-        
-        cron.schedule("* * * * *", async () => {
-            console.log("⏳ Running background price check...");
-            await bgjob();
-        });
-    } catch (err) {
-        console.error("❌ Failed to connect to MongoDB:", err);
-        process.exit(1); 
-    }
-})();
+    cron.schedule("* * * * *", async () => {
+        console.log("⏳ Running background price check...");
+        await bgjob();
+    });
+}
