@@ -33,7 +33,7 @@ async function bgjob() {
                 alert.isTriggered = true;
                 await alert.save();
 
-                console.log(`📧 Email sent for ${alert.symbol}`);
+                console.log(`📧 Email sent for ${alert.symbol} at ${alert.userEmail}`);
             }
         } catch (err) {
             console.error(`Error processing alert for ${alert.symbol}:`, err);
