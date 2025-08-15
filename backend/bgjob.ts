@@ -25,7 +25,7 @@ async function bgjob() {
             if (shouldTrigger) {
                 await resend.emails.send({
                     from: "onboarding@resend.dev",
-                    to: `${alert.userEmail}`,
+                    to: alert.userEmail,
                     subject: "Cryptra Alert",
                     html: `<p>${alert.symbol} price crossed your target of $${alert.targetPrice} — Current: $${currprice}</p>`,
                 });
